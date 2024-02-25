@@ -1,77 +1,64 @@
-create table orderr (
-ono int primary key auto_increment, -- 글번호
-uuid varchar(20), -- 수주번호
-oday date DEFAULT (current_date) not null, -- 수주일자
-cno varchar(20),
-ceo varchar(20),
-cname varchar(50) not null, -- 거래처명
-pcount int,
-osuju varchar(10) default "수주 대기" not null, -- 수주상태 (출고요청완료) or (출고요청보류)
-omanager varchar(10) not null, -- 수주담당자
-otext text, -- 비고
-sdate date, -- 출고날짜
-sdel varchar(20) default '-',
-tcount int, -- 총 수주량
-tscount int default 0,  -- 총 출하량 
-tamount int default 0 -- 총 요청잔량
-);
+<div align="left">
 
--- 장바구니 역할
-CREATE TABLE cart (
-pproduct VARCHAR(40) NOT NULL, -- 제품이름
-pprice INT NOT NULL, -- 제품단가
-ocount INT NOT NULL, -- 수주수량
-osum INT NOT NULL, -- 수주금액
-ono int,
-amount int default 0, -- 요청잔량
-scount int -- 출고수량
-);
+<h1>🖥 공급사 관점 의료용품 수주 프로세스 구현</h1>
+  
+### 💡 개요
+> 주문을 받아 상품이나 서비스를 제공하는 수주 프로세스
+### ✏ 기획 목적
+> 사용자가 업무를 보다 편리하게 사용 가능한 프로젝트 구현
+### 📆 일정
+> 24.01.17 ~ 24.02.16
+### 🙌 팀원
+|구재성|김승주|최나영|
+|:---:|:---:|:---:|
+|<img src="https://github.com/iaaam0/project12/assets/152710037/0d2f9056-9c53-45a4-8838-c543eef375b4" width="60" height="60">|<img src="https://github.com/iaaam0/project12/assets/152710037/1d045b18-01fb-4e4d-9e64-01301be43757" width="60" height="60">|<img src="https://github.com/iaaam0/project12/assets/152710037/68fae097-760c-4749-ad89-0ad36eacba47" width="60" height="60">|
+|백엔드|백엔드|백엔드|
+|<a href="https://github.com/worntjd142">worntjd142</a>|<a href="https://github.com/ksj5057">ksj5057</a>|<a href="https://github.com/iaaam0/iam-0">iaaam0</a>|
+### 🖱 개발 환경
+- Server : Apache Tomcat 8.5
+- DB : MySQL
+- Framework : Spring MVC
+- Language : Java, JavaScript, HTML5, CSS, jQuery, python, raspberry pi 5, bootstrap
+- library : kakaomap API
+- Tool : Eclipse, GitHub
+
+### 프로젝트 기획
+<details close>
+  <summary>ERD</summary> 
+
+![image](https://github.com/iaaam0/project3/assets/152710037/11b9da1b-ca67-4ba3-b3ba-f0b9f88a265e)
+  
+</details>
+
+<details close>
+  <summary>화면 설계</summary> 
+
+![그림1](https://github.com/iaaam0/project3/assets/152710037/ba018877-b2bc-4230-8447-1b71ffe3e565)
+
+  
+</details>
 
 
--- 제품관리
-create table product(
-pcode varchar(10) not null, -- 제품코드
-housed DATE DEFAULT (current_date), -- 입고날짜
-pname varchar(40) not null, -- 제품이름
-pprice int not null,        -- 제품단가
-pmc varchar(40) not null,   -- 제조사
-pstock int,                 -- 재고 수
-pmi varchar(500) not null,   -- 제품 설명
-exd varchar (50) not null,   -- 유통기한
-pimage varchar(500) not null, -- 제품 이미지 파일명
-houseld varchar(50) default '해당 없음' -- 최종 입고일
-);
+### 🖼 프로젝트 주요 기능  
+  
+- <b>메인페이지</b> : 서버 실행시 나오는 메인 로그인 화면. 회원가입 대상자는 회사 사용자이기때문에 사업자정보로 회원가입 및 유효성 검사 적용
+  
+![image](https://github.com/iaaam0/project3/assets/152710037/064e37ec-8693-45dd-a151-8242a1c10628)
 
--- 거래처관리
-create table connection(
-cname varchar(50) not null, -- 거래처 이름
-cno varchar(50) not null, -- 사업자번호
-ceo varchar(20) not null, -- 대표자 이름
-caddress varchar(100) not null, -- 거래처 주소
-cnumber varchar(20) not null, -- 거래처 번호
-cemail varchar (100) not null, -- 거래처 이메일
-cmi varchar(100), -- 비고
-y varchar(100),
-x varchar(100) 
-);
+- <b>제품, 거래처관리</b> : 입고된 제품관리와 발주한 거래처관리 페이지
 
-CREATE TABLE login (
-useid VARCHAR(20) PRIMARY KEY, -- 사용자 아이디
-usepassword VARCHAR(20) NOT NULL, -- 사용자 비밀번호
-usename VARCHAR(20) NOT NULL, -- 사용자 회사이름
-usenumber VARCHAR(12) NOT NULL, -- 사용자 사업자번호
-usetel VARCHAR(20) NOT NULL -- 사용자 회사 연락처
-);
+![그림3](https://github.com/iaaam0/project3/assets/152710037/3489073a-2036-460e-9837-647c637a8ccb)
 
-create table shipment(
-ono int,
-snumber varchar(50), -- 출하번호
-sname varchar(50), -- 거래처
-sday date,  --  발행일
-dday date DEFAULT (current_date + 2),	 -- 납품일자
-product varchar(20), -- 제품명
-pcode varchar(20), -- 제품코드
-tcount int, -- 납품수량
-price int, -- 단가
-osum int
-);
+- <b>수주관리</b> : 주문받은 제품추가, 거래처 등록 및 관리하는 페이지
+- jQuery 자동완성을 활용해 거래처관리에 등록된 데이터를 자동으로 입력하게끔 기능 추가
+  
+![그림5](https://github.com/iaaam0/project3/assets/152710037/829747b3-0cb4-4500-9d9b-537a48b672e3)
+
+  
+- <b>출하, 출고관리</b> : 수주등록된 제품을 출하 후 출고요청하는 페이지
+  
+![image](https://github.com/iaaam0/project3/assets/152710037/74bccb33-7345-4ed9-9c5f-f0b98eecade8)
+
+</div>
+
+
