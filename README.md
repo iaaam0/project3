@@ -22,7 +22,7 @@
 - library : kakaomap API
 - Tool : Eclipse, GitHub
 
-### 프로젝트 기획
+### 🖼 프로젝트 기획
 <details close>
   <summary>ERD</summary> 
 
